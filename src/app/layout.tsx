@@ -76,6 +76,18 @@ export default async function RootLayout({
     autoUpdateEnabled = config.SubscriptionConfig?.autoUpdate === true;
   }
 
+  // 计算在一起的天数
+  const startDate = new Date('2025-07-03');
+  const today = new Date();
+  const diffTime = today.getTime() - startDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  
+  if (announcement) {
+    announcement = `今天是小白和小鸡毛在一起的第${diffDays}天\n${announcement}`;
+  } else {
+    announcement = `今天是小白和小鸡毛在一起的第${diffDays}天`;
+  }
+
   // 将运行时配置注入到全局 window 对象，供客户端在运行时读取
   const runtimeConfig = {
     STORAGE_TYPE: process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage',
