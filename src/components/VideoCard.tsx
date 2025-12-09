@@ -273,7 +273,7 @@ export default function VideoCard({
   // 渲染
   return (
     <div
-      className="group relative w-full rounded-xl bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:z-[500]"
+      className="group relative w-full rounded-xl bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500]"
       style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -341,16 +341,15 @@ export default function VideoCard({
       {/* 播放按钮 */}
       {config.showPlayButton && (
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <div className='w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75'>
-                <PlayCircleIcon
-                  size={32}
-                  className="text-white fill-white/20"
-                  onClick={(e) => {
-                    e.stopPropagation(); // 阻止冒泡
-                    handleClick();       // 只在点击按钮时触发播放
-                  }}
-                />
-              </div>
+              <PlayCircleIcon
+                size={50}
+                strokeWidth={0.8}
+                className="text-white fill-transparent hover:fill-green-500 hover:scale-[1.1] transition"
+                onClick={(e) => {
+                  e.stopPropagation(); // 阻止冒泡
+                  handleClick();       // 只在点击按钮时触发播放
+                }}
+              />
             </div>
           )}
 
