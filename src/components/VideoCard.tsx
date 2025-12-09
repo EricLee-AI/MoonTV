@@ -273,7 +273,7 @@ export default function VideoCard({
   // 渲染
   return (
     <div
-      className="group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500]"
+      className="group relative w-full rounded-xl bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:z-[500]"
       style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -340,7 +340,7 @@ export default function VideoCard({
 
       {/* 播放按钮 */}
       {config.showPlayButton && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:delay-100">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
               <div className='w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75'>
                 <PlayCircleIcon
                   size={32}
@@ -355,34 +355,24 @@ export default function VideoCard({
           )}
 
         {(config.showHeart || config.showCheckCircle) && (
-          <div className='absolute bottom-3 right-3 flex gap-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-100'>
+          <div className='absolute bottom-3 right-3 flex gap-3 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
             {config.showCheckCircle && (
-              <button 
+              <Trash2
                 onClick={handleDeleteRecord}
-                className="p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-red-500/80 transition-colors"
-              >
-                <Trash2
-                  size={16}
-                  className='text-white'
-                />
-              </button>
+                size={20}
+                className='text-white transition-all duration-300 ease-out hover:stroke-red-500 hover:scale-[1.1]'
+              />
             )}
             {config.showHeart && (
-              <button
+              <Heart
                 onClick={handleToggleFavorite}
-                className={`p-2 rounded-full backdrop-blur-md border border-white/10 transition-colors ${
-                  favorited ? 'bg-red-500/80 border-red-500/50' : 'bg-black/40 hover:bg-black/60'
-                }`}
-              >
-                <Heart
-                  size={16}
-                  className={`transition-all duration-300 ${
-                    favorited
-                      ? 'fill-white stroke-white'
-                      : 'fill-transparent stroke-white'
-                  }`}
-                />
-              </button>
+                size={20}
+                className={`transition-all duration-300 ease-out ${
+                  favorited
+                    ? 'fill-red-600 stroke-red-600'
+                    : 'fill-transparent stroke-white hover:stroke-red-400'
+                } hover:scale-[1.1]`}
+              />
             )}
           </div>
         )}
@@ -400,7 +390,7 @@ export default function VideoCard({
         {/* 📅 年份显示（左上角） */}
         {from === 'search' && actualYear && actualYear.toLowerCase() !== 'unknown' && (
         <div
-          className="absolute top-2 left-2 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-md shadow-sm"
+          className="absolute top-2 left-2 bg-black/60 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full shadow-md"
         >
           {actualYear}
         </div>
@@ -420,7 +410,7 @@ export default function VideoCard({
                 window.open(`https://movie.douban.com/subject/${actualDoubanId}`, "_blank");
               }
             }}
-            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 group-hover:delay-100 cursor-pointer"
+            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer"
             title={isBangumi ? "跳转到 Bangumi" : "跳转到豆瓣"}
           >
             <svg
