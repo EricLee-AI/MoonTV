@@ -95,7 +95,7 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
 
   return (
     <nav
-      className='md:hidden fixed left-4 right-4 z-[600] bg-white/80 dark:bg-black/60 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[2rem] shadow-2xl shadow-black/10 overflow-hidden'
+      className='md:hidden fixed left-4 right-4 z-[600] bg-white/60 dark:bg-black/40 backdrop-blur-2xl border border-white/30 dark:border-white/10 rounded-[2rem] shadow-2xl shadow-black/5 overflow-hidden'
       style={{
         bottom: 'calc(1rem + env(safe-area-inset-bottom))',
       }}
@@ -131,8 +131,8 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
                 }}
               >
                 <item.icon
-                  className={`h-6 w-6 transition-colors duration-300 ${active
-                      ? 'text-gray-900 dark:text-white fill-gray-900/10 dark:fill-white/10'
+                  className={`h-6 w-6 transition-all duration-300 ${active
+                      ? 'text-gray-900 dark:text-white fill-gray-900/20 dark:fill-white/20 drop-shadow-sm'
                       : 'text-gray-500 dark:text-gray-400'
                     }`}
                   strokeWidth={active ? 2.5 : 2}
