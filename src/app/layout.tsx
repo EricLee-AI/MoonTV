@@ -83,7 +83,7 @@ export default async function RootLayout({
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
   
   if (announcement) {
-    announcement = `今天是小白和小鸡毛在一起的第${diffDays}天\n${announcement}`;
+    announcement = `今天是小白和小鸡毛在一起的第${diffDays}天${announcement}`;
   } else {
     announcement = `今天是小白和小鸡毛在一起的第${diffDays}天`;
   }
