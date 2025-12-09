@@ -49,6 +49,92 @@ const TopNav = ({ activePath = '/' }: TopNavProps) => {
   const historyButtonRef = useRef<HTMLButtonElement>(null);
   const historyPopupRef = useRef<HTMLDivElement>(null);
 
+  // 滚动状态
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? 'glass-effect border-b border-gray-200/50 dark:border-gray-800/50 py-2'
+          : 'bg-transparent py-4'
+      }`}
+    >
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='flex items-center justify-between h-12'>
+          {/* Logo */}
+          <div className='flex-shrink-0 flex items-center'>
+            <Link
+              href='/'
+              className='flex items-center gap-2 group'
+              onClick={() => setActive('/')}
+            >
+              <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white shadow-lg group-hover:shadow-blue-500/30 transition-all duration-300'>
+                <Tv size={18} className='group-hover:scale-110 transition-transform' />
+              </div>
+              <span className='text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 hidden sm:block'>
+                {siteName}
+              </span>
+            </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className='flex-1 max-w-2xl mx-4 sm:mx-8 relative'>
+            <div className={`relative group transition-all duration-300 ${showSuggestions || showHistory ? 'scale-[1.02]' : ''}`}>
+              <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                <Search className='h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors' />
+              </div>
+              <input
+                ref={searchInputRef}
+                type='text'
+                className='block w-full pl-10 pr-20 py-2.5 border-0 rounded-2xl bg-gray-100/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:bg-white dark:focus:bg-gray-800 transition-all duration-300 glass-button'
+                placeholder='搜索影视...'
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                  if (searchQuery) setShowSuggestions(true);
+                  else setShowHistory(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(searchQuery);
+                    setShowSuggestions(false);
+                    setShowHistory(false);
+                  }
+                }}
+              />
+              {/* ...existing code... */}
+            </div>
+          </div>
+
+          {/* Right Actions */}
+          <div className='flex items-center gap-2 sm:gap-4'>
+            <Link
+              href='/favorites'
+              className={`p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 group ${
+                active === '/favorites' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'
+              }`}
+              onClick={() => setActive('/favorites')}
+            >
+              <Star size={20} className='group-hover:scale-110 transition-transform' />
+            </Link>
+            <ThemeToggle />
+            <UserMenu />
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
   // 检查是否启用简洁模式
   const [simpleMode, setSimpleMode] = useState(false);
   const [isClient, setIsClient] = useState(false);
