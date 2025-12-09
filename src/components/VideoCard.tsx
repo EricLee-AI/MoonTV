@@ -273,7 +273,7 @@ export default function VideoCard({
   // 渲染
   return (
     <div
-      className="group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500]"
+      className="group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500] hover:shadow-2xl transform-gpu"
       style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -314,8 +314,7 @@ export default function VideoCard({
         }
       }}
     >
-      {/* 图片和播放按钮 */}
-      <div className='relative aspect-[2/3] overflow-hidden rounded-lg'>
+      <div className='relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-800'>
         {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
         <Image
           src={processImageUrl(actualPoster)}
@@ -342,15 +341,14 @@ export default function VideoCard({
       {config.showPlayButton && (
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
           <div
-            className="p-3 rounded-full bg-black/30 backdrop-blur-md border border-white/20 hover:bg-black/50 hover:scale-110 transition-all duration-300 cursor-pointer group/play"
+            className="p-2 sm:p-3 rounded-full bg-black/30 backdrop-blur-md border border-white/20 hover:bg-black/50 hover:scale-110 transition-all duration-300 cursor-pointer group/play"
             onClick={(e) => {
               e.stopPropagation();
               handleClick();
             }}
           >
             <PlayCircleIcon
-              size={40}
-              className="text-white fill-white/10 group-hover/play:fill-white/30 transition-colors"
+              className="w-8 h-8 sm:w-12 sm:h-12 text-white fill-white/10 group-hover/play:fill-white/30 transition-colors"
             />
           </div>
         </div>
