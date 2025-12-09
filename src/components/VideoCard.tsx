@@ -315,7 +315,7 @@ export default function VideoCard({
       }}
     >
       {/* 图片和播放按钮 */}
-      <div className='relative aspect-[2/3] overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1'>
+      <div className='relative aspect-[2/3] overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-xl'>
         {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
         <Image
           src={processImageUrl(actualPoster)}
@@ -340,7 +340,7 @@ export default function VideoCard({
 
       {/* 播放按钮 */}
       {config.showPlayButton && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:delay-100">
               <div className='w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75'>
                 <PlayCircleIcon
                   size={32}
@@ -355,7 +355,7 @@ export default function VideoCard({
           )}
 
         {(config.showHeart || config.showCheckCircle) && (
-          <div className='absolute bottom-3 right-3 flex gap-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
+          <div className='absolute bottom-3 right-3 flex gap-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-100'>
             {config.showCheckCircle && (
               <button 
                 onClick={handleDeleteRecord}
@@ -420,7 +420,7 @@ export default function VideoCard({
                 window.open(`https://movie.douban.com/subject/${actualDoubanId}`, "_blank");
               }
             }}
-            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 group-hover:delay-100 cursor-pointer"
             title={isBangumi ? "跳转到 Bangumi" : "跳转到豆瓣"}
           >
             <svg
