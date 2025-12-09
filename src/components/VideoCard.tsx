@@ -321,7 +321,7 @@ export default function VideoCard({
           src={processImageUrl(actualPoster)}
           alt={actualTitle}
           fill
-          className='object-cover'
+          className='object-cover transition-transform duration-500 ease-in-out group-hover:scale-110'
           referrerPolicy='no-referrer'
           loading='lazy'
           onLoad={() => setIsLoading(true)}
@@ -340,138 +340,129 @@ export default function VideoCard({
 
       {/* 播放按钮 */}
       {config.showPlayButton && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-              <PlayCircleIcon
-                size={50}
-                strokeWidth={0.8}
-                className="text-white fill-transparent hover:fill-green-500 hover:scale-[1.1] transition"
-                onClick={(e) => {
-                  e.stopPropagation(); // 阻止冒泡
-                  handleClick();       // 只在点击按钮时触发播放
-                }}
-              />
-            </div>
-          )}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+          <div
+            className="p-3 rounded-full bg-black/30 backdrop-blur-md border border-white/20 hover:bg-black/50 hover:scale-110 transition-all duration-300 cursor-pointer group/play"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
+          >
+            <PlayCircleIcon
+              size={40}
+              className="text-white fill-white/10 group-hover/play:fill-white/30 transition-colors"
+            />
+          </div>
+        </div>
+      )}
 
         {(config.showHeart || config.showCheckCircle) && (
-          <div className='absolute bottom-3 right-3 flex gap-3 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
+          <div className='absolute bottom-3 right-3 flex gap-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 z-20'>
             {config.showCheckCircle && (
-              <Trash2
+              <div
                 onClick={handleDeleteRecord}
-                size={20}
-                className='text-white transition-all duration-300 ease-out hover:stroke-red-500 hover:scale-[1.1]'
-              />
+                className="p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-red-500/80 hover:border-red-500/50 transition-all duration-300 hover:scale-110 cursor-pointer"
+              >
+                <Trash2 size={16} className='text-white' />
+              </div>
             )}
             {config.showHeart && (
-              <Heart
+              <div
                 onClick={handleToggleFavorite}
-                size={20}
-                className={`transition-all duration-300 ease-out ${
-                  favorited
-                    ? 'fill-red-600 stroke-red-600'
-                    : 'fill-transparent stroke-white hover:stroke-red-400'
-                } hover:scale-[1.1]`}
-              />
+                className={`p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 transition-all duration-300 hover:scale-110 cursor-pointer ${
+                  favorited ? 'hover:bg-red-500/20 border-red-500/50' : 'hover:bg-black/60'
+                }`}
+              >
+                <Heart
+                  size={16}
+                  className={`transition-colors duration-300 ${
+                    favorited
+                      ? 'fill-red-500 stroke-red-500'
+                      : 'fill-transparent stroke-white'
+                  }`}
+                />
+              </div>
             )}
           </div>
         )}
 
-        {/* ⭐ 评分显示（左上角小圆圈，可跳转豆瓣或 Bangumi） */}
+        {/* ⭐ 评分显示 */}
         {config.showRating && rate && actualDoubanId && (
           <div
-            className="absolute top-2 left-2 bg-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-md cursor-pointer hover:bg-pink-600 transition"
+            className="absolute top-2 left-2 bg-black/40 backdrop-blur-md border border-white/10 text-pink-400 text-[10px] sm:text-xs font-bold px-2 py-1 rounded-lg shadow-sm cursor-pointer hover:bg-black/60 transition-all duration-300 z-20"
           >
             {rate}
           </div>
         )}
 
 
-        {/* 📅 年份显示（左上角） */}
+        {/* 📅 年份显示 */}
         {from === 'search' && actualYear && actualYear.toLowerCase() !== 'unknown' && (
-        <div
-          className="absolute top-2 left-2 bg-black/60 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full shadow-md"
-        >
-          {actualYear}
-        </div>
+          <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg shadow-sm z-20">
+            {actualYear}
+          </div>
         )}
 
-        {/* 🔗 豆瓣/Bangumi跳转链接（左下角） */}
+        {/* 🔗 豆瓣/Bangumi跳转链接 */}
         {config.showDoubanLink && actualDoubanId && (
           <div
             onClick={(e) => {
-              e.stopPropagation(); // 阻止触发卡片点击
-              
+              e.stopPropagation();
               if (isBangumi) {
-                // 动漫 → Bangumi
                 window.open(`https://bangumi.tv/subject/${actualDoubanId}`, "_blank");
               } else {
-                // 默认 → 豆瓣
                 window.open(`https://movie.douban.com/subject/${actualDoubanId}`, "_blank");
               }
             }}
-            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute bottom-3 left-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-sm hover:bg-green-600/80 hover:border-green-500/50 hover:scale-110 transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer z-20"
             title={isBangumi ? "跳转到 Bangumi" : "跳转到豆瓣"}
           >
-            <svg
-              width='16'
-              height='16'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            >
-              <path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'></path>
-              <path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'></path>
-            </svg>
+            <Link size={14} className="text-white" />
           </div>
         )}
 
         {/* 集数 */}
         {actualEpisodes && actualEpisodes > 1 && (
-          <div className='absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md transition-all duration-300 ease-out group-hover:scale-110'>
+          <div className='absolute top-2 right-2 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-lg shadow-sm transition-all duration-300 ease-out group-hover:scale-105 z-20'>
             {currentEpisode ? `${currentEpisode}/${actualEpisodes}` : actualEpisodes}
           </div>
         )}
 
 {/* 播放源徽章 */}
 {isAggregate && items && items.length > 0 && (
-  <div className="absolute bottom-2 right-2 flex flex-col items-end">
+  <div className="absolute bottom-3 right-3 flex flex-col items-end z-20">
     <div className="relative group/sources">
-      {/* 小圆圈按钮：默认显示 */}
+      {/* 小圆圈按钮 */}
       <div
-        className="bg-gray-700 text-white text-xs sm:text-xs w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shadow-md hover:bg-gray-600 hover:scale-[1.1] transition-all duration-300 ease-out cursor-pointer"
+        className="w-7 h-7 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white text-xs shadow-sm hover:bg-black/60 hover:scale-110 transition-all duration-300 ease-out cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
-          setShowSources((prev) => !prev); // 点击切换列表显示
+          setShowSources((prev) => !prev);
         }}
       >
         {items.length}
       </div>
 
-{/* 播放源列表弹窗 */}
-{showSources && (
-  <div className="absolute bottom-full mb-2 right-0 sm:right-0 z-50">
-    <div className="bg-gray-800/90 backdrop-blur-sm text-white text-xs sm:text-xs rounded-lg shadow-xl border border-white/10 p-1 sm:p-1.5 min-w-[70px] sm:min-w-[90px] max-w-[120px] sm:max-w-[160px] max-h-20 sm:max-h-40 overflow-auto">
-      <div className="space-y-0.5 sm:space-y-1">
-        {items.map((item, idx) => (
-          <div key={idx} className="flex items-center gap-1 sm:gap-1.5">
-            <div className="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-blue-400 rounded-full flex-shrink-0"></div>
-            <span className="truncate text-[10px] sm:text-xs leading-tight" title={item.source_name}>
-              {item.source_name}
-            </span>
+      {/* 播放源列表弹窗 */}
+      {showSources && (
+        <div className="absolute bottom-full mb-2 right-0 z-50">
+          <div className="bg-black/60 backdrop-blur-md text-white text-xs rounded-lg shadow-xl border border-white/10 p-1.5 min-w-[90px] max-w-[160px] max-h-40 overflow-auto">
+            <div className="space-y-1">
+              {items.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-1.5">
+                  <div className="w-1 h-1 bg-blue-400 rounded-full flex-shrink-0"></div>
+                  <span className="truncate text-xs leading-tight" title={item.source_name}>
+                    {item.source_name}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* 小箭头 */}
+            <div className="absolute top-full right-3 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-white/10"></div>
           </div>
-        ))}
-      </div>
-
-      {/* 小箭头 */}
-      <div className="absolute top-full right-2 sm:right-3 w-0 h-0 border-l-[4px] border-r-[4px] border-t-[4px] sm:border-l-[6px] sm:border-r-[6px] sm:border-t-[6px] border-transparent border-t-gray-800/90"></div>
-    </div>
-  </div>
-)}
-{/* 播放源列表弹窗 */}
-
+        </div>
+      )}
     </div>
   </div>
 )}
