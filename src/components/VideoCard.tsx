@@ -273,14 +273,8 @@ export default function VideoCard({
   // 渲染
   return (
     <div
-      className="group relative isolate w-full rounded-2xl bg-transparent cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.04] hover:z-30 focus-within:z-30 focus-visible:scale-[1.04] transform-gpu will-change-transform hover:shadow-[0_25px_45px_rgba(15,23,42,0.35)] shadow-[0_12px_30px_rgba(15,23,42,0.25)]"
-      style={{
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        WebkitTouchCallout: 'none',
-        backfaceVisibility: 'hidden',
-        transformStyle: 'preserve-3d',
-      }}
+      className="group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500]"
+      style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -321,13 +315,13 @@ export default function VideoCard({
       }}
     >
       {/* 图片和播放按钮 */}
-      <div className='relative aspect-[2/3] overflow-hidden rounded-xl isolate shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'>
+      <div className='relative aspect-[2/3] overflow-hidden rounded-lg'>
         {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
         <Image
           src={processImageUrl(actualPoster)}
           alt={actualTitle}
           fill
-          className='object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03] transform-gpu'
+          className='object-cover'
           referrerPolicy='no-referrer'
           loading='lazy'
           onLoad={() => setIsLoading(true)}
@@ -342,15 +336,15 @@ export default function VideoCard({
           }}
         />
 
-        <div className='absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 pointer-events-none' />
+        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black-20 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
 
       {/* 播放按钮 */}
       {config.showPlayButton && (
-            <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
               <PlayCircleIcon
-                size={54}
+                size={50}
                 strokeWidth={0.8}
-                className="relative pointer-events-auto text-white fill-transparent drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)] hover:fill-green-500 hover:scale-[1.08] transition-colors transition-transform duration-300"
+                className="text-white fill-transparent hover:fill-green-500 hover:scale-[1.1] transition"
                 onClick={(e) => {
                   e.stopPropagation(); // 阻止冒泡
                   handleClick();       // 只在点击按钮时触发播放
@@ -360,12 +354,12 @@ export default function VideoCard({
           )}
 
         {(config.showHeart || config.showCheckCircle) && (
-          <div className='absolute bottom-3 right-3 z-30 flex gap-3 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
+          <div className='absolute bottom-3 right-3 flex gap-3 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
             {config.showCheckCircle && (
               <Trash2
                 onClick={handleDeleteRecord}
                 size={20}
-                className='text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.55)] transition-all duration-300 ease-out hover:stroke-red-500 hover:scale-[1.1]'
+                className='text-white transition-all duration-300 ease-out hover:stroke-red-500 hover:scale-[1.1]'
               />
             )}
             {config.showHeart && (
@@ -376,7 +370,7 @@ export default function VideoCard({
                   favorited
                     ? 'fill-red-600 stroke-red-600'
                     : 'fill-transparent stroke-white hover:stroke-red-400'
-                } hover:scale-[1.1] drop-shadow-[0_4px_12px_rgba(0,0,0,0.45)]`}
+                } hover:scale-[1.1]`}
               />
             )}
           </div>
@@ -385,7 +379,7 @@ export default function VideoCard({
         {/* ⭐ 评分显示（左上角小圆圈，可跳转豆瓣或 Bangumi） */}
         {config.showRating && rate && actualDoubanId && (
           <div
-            className="absolute top-2 left-2 z-30 bg-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-md cursor-pointer hover:bg-pink-600 transition"
+            className="absolute top-2 left-2 bg-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-md cursor-pointer hover:bg-pink-600 transition"
           >
             {rate}
           </div>
@@ -395,7 +389,7 @@ export default function VideoCard({
         {/* 📅 年份显示（左上角） */}
         {from === 'search' && actualYear && actualYear.toLowerCase() !== 'unknown' && (
         <div
-          className="absolute top-2 left-2 z-30 bg-black/60 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full shadow-md"
+          className="absolute top-2 left-2 bg-black/60 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full shadow-md"
         >
           {actualYear}
         </div>
@@ -415,7 +409,7 @@ export default function VideoCard({
                 window.open(`https://movie.douban.com/subject/${actualDoubanId}`, "_blank");
               }
             }}
-            className="absolute bottom-2 left-2 z-30 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 hover:scale-[1.1] transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 cursor-pointer"
             title={isBangumi ? "跳转到 Bangumi" : "跳转到豆瓣"}
           >
             <svg
@@ -436,14 +430,14 @@ export default function VideoCard({
 
         {/* 集数 */}
         {actualEpisodes && actualEpisodes > 1 && (
-          <div className='absolute top-2 right-2 z-30 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md transition-all duration-300 ease-out group-hover:scale-110'>
+          <div className='absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md transition-all duration-300 ease-out group-hover:scale-110'>
             {currentEpisode ? `${currentEpisode}/${actualEpisodes}` : actualEpisodes}
           </div>
         )}
 
 {/* 播放源徽章 */}
 {isAggregate && items && items.length > 0 && (
-  <div className="absolute bottom-2 right-2 z-30 flex flex-col items-end">
+  <div className="absolute bottom-2 right-2 flex flex-col items-end">
     <div className="relative group/sources">
       {/* 小圆圈按钮：默认显示 */}
       <div
