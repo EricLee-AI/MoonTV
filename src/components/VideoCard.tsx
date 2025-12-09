@@ -315,13 +315,13 @@ export default function VideoCard({
       }}
     >
       {/* 图片和播放按钮 */}
-      <div className='relative aspect-[2/3] overflow-hidden rounded-lg'>
+      <div className='relative aspect-[2/3] overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1'>
         {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
         <Image
           src={processImageUrl(actualPoster)}
           alt={actualTitle}
           fill
-          className='object-cover'
+          className='object-cover transition-transform duration-500 group-hover:scale-110'
           referrerPolicy='no-referrer'
           loading='lazy'
           onLoad={() => setIsLoading(true)}
@@ -336,42 +336,53 @@ export default function VideoCard({
           }}
         />
 
-        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black-20 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
+        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
 
       {/* 播放按钮 */}
       {config.showPlayButton && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-              <PlayCircleIcon
-                size={50}
-                strokeWidth={0.8}
-                className="text-white fill-transparent hover:fill-green-500 hover:scale-[1.1] transition"
-                onClick={(e) => {
-                  e.stopPropagation(); // 阻止冒泡
-                  handleClick();       // 只在点击按钮时触发播放
-                }}
-              />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className='w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75'>
+                <PlayCircleIcon
+                  size={32}
+                  className="text-white fill-white/20"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 阻止冒泡
+                    handleClick();       // 只在点击按钮时触发播放
+                  }}
+                />
+              </div>
             </div>
           )}
 
         {(config.showHeart || config.showCheckCircle) && (
-          <div className='absolute bottom-3 right-3 flex gap-3 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
+          <div className='absolute bottom-3 right-3 flex gap-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0'>
             {config.showCheckCircle && (
-              <Trash2
+              <button 
                 onClick={handleDeleteRecord}
-                size={20}
-                className='text-white transition-all duration-300 ease-out hover:stroke-red-500 hover:scale-[1.1]'
-              />
+                className="p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-red-500/80 transition-colors"
+              >
+                <Trash2
+                  size={16}
+                  className='text-white'
+                />
+              </button>
             )}
             {config.showHeart && (
-              <Heart
+              <button
                 onClick={handleToggleFavorite}
-                size={20}
-                className={`transition-all duration-300 ease-out ${
-                  favorited
-                    ? 'fill-red-600 stroke-red-600'
-                    : 'fill-transparent stroke-white hover:stroke-red-400'
-                } hover:scale-[1.1]`}
-              />
+                className={`p-2 rounded-full backdrop-blur-md border border-white/10 transition-colors ${
+                  favorited ? 'bg-red-500/80 border-red-500/50' : 'bg-black/40 hover:bg-black/60'
+                }`}
+              >
+                <Heart
+                  size={16}
+                  className={`transition-all duration-300 ${
+                    favorited
+                      ? 'fill-white stroke-white'
+                      : 'fill-transparent stroke-white'
+                  }`}
+                />
+              </button>
             )}
           </div>
         )}
@@ -379,7 +390,7 @@ export default function VideoCard({
         {/* ⭐ 评分显示（左上角小圆圈，可跳转豆瓣或 Bangumi） */}
         {config.showRating && rate && actualDoubanId && (
           <div
-            className="absolute top-2 left-2 bg-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-md cursor-pointer hover:bg-pink-600 transition"
+            className="absolute top-2 left-2 bg-black/40 backdrop-blur-md border border-white/10 text-yellow-400 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md shadow-sm cursor-pointer hover:bg-black/60 transition-colors"
           >
             {rate}
           </div>
@@ -389,7 +400,7 @@ export default function VideoCard({
         {/* 📅 年份显示（左上角） */}
         {from === 'search' && actualYear && actualYear.toLowerCase() !== 'unknown' && (
         <div
-          className="absolute top-2 left-2 bg-black/60 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full shadow-md"
+          className="absolute top-2 left-2 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-md shadow-sm"
         >
           {actualYear}
         </div>
